@@ -20,16 +20,16 @@ namespace Mango.Web.Service
             {
                 ApiType = SD.ApiType.POST,
                 Data=couponDto,
-                Url = SD.CouponAPIBase + "/api/Coupon/GetByCode"
+                Url = SD.CouponAPIBase + "/api/Coupon"
             });
         }
 
-        public async Task<ResponseDto> DelteCouponAsync(int id)
+        public async Task<ResponseDto> DeleteCouponAsync(int id)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.DELETE,
-                Url = SD.CouponAPIBase + "/api/Coupon/GetByCode" + id
+                Url = SD.CouponAPIBase + "/api/Coupon/" + id
             });
         }
 
@@ -56,7 +56,7 @@ namespace Mango.Web.Service
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.CouponAPIBase + "/api/Coupon/GetByCode" + id
+                Url = SD.CouponAPIBase + "/api/Coupon/" + id
             });
         }
 
@@ -66,7 +66,7 @@ namespace Mango.Web.Service
             {
                 ApiType = SD.ApiType.PUT,
                 Data = couponDto,
-                Url = SD.CouponAPIBase + "/api/Coupon/GetByCode"
+                Url = SD.CouponAPIBase + "/api/Coupon"
             });
         }
     }
