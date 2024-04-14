@@ -1,4 +1,4 @@
-﻿namespace Mango.Services.AuthAPI.Models.Dto
+﻿namespace Mango.Mango.Web.Models
 {
     public class RegisterationRequesteDto
     {
