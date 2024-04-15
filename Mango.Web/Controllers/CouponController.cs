@@ -57,9 +57,18 @@ namespace Mango.Web.Controllers
         }
         public async Task<IActionResult> Delete(int couponId)
         {
-            await _couponService.DeleteCouponAsync(couponId);
-            TempData["success"] = "Coupon Deleted Successfully";
+            ResponseDto? result=await _couponService.DeleteCouponAsync(couponId);
+            if(result != null && result.IsSuccess)
+            {
+                TempData["success"] = "Coupon Deleted Successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            { 
+                TempData["error"] = result?.Messege;
+            }
             return RedirectToAction(nameof(Index));
+
         }
     }
 }

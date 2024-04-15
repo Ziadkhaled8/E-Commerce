@@ -44,10 +44,10 @@ namespace Mango.Web.Controllers
             }
             else
             {
-                ModelState.AddModelError("CustomerError", responseDto.Messege);
+                TempData["error"] = responseDto.Messege;
                 return View(obj);
             }
-            
+
         }
         
         public IActionResult Register()
@@ -78,6 +78,10 @@ namespace Mango.Web.Controllers
                     TempData["success"] = "Registration Is Successful";
                     return RedirectToAction("Login");
                 }
+            }
+            else
+            {
+                TempData["error"]=result.Messege;
             }
 
             var roleList = new List<SelectListItem>()
@@ -114,8 +118,8 @@ namespace Mango.Web.Controllers
 
             identity.AddClaim(new Claim(ClaimTypes.Name,
                 jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Email).Value));
-            //identity.AddClaim(new Claim(ClaimTypes.Role,
-              //  jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
+            identity.AddClaim(new Claim(ClaimTypes.Role,
+                jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
 
 
 
