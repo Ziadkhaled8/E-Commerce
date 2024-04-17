@@ -31,7 +31,7 @@ namespace Mango.Web.Controllers
             return View(list);
         }
 
-        public async Task<IActionResult> Create()
+        public  IActionResult Create()
         {
             return View();
         }
