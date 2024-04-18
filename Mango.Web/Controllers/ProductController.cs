@@ -29,7 +29,9 @@ namespace Mango.Web.Controllers
                 TempData["error"] = response?.Messege;
             }
             return View(list);
-        }
+        } 
+        
+               
 
         public  IActionResult Create()
         {
