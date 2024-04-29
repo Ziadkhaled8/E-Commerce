@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Mango.Services.CouponAPI.Migrations
+namespace Mango.Services.ShoppingCartAPI.Migrations
 {
     /// <inheritdoc />
     public partial class coupon : Migration

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Mango.Services.CouponAPI.Models
+namespace Mango.Services.ShoppingCartAPI.Models
 {
     public class Coupon
     {

@@ -1,7 +1,7 @@
-﻿using Mango.Services.CouponAPI.Models;
+﻿using Mango.Services.ShoppingCartAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mango.Services.CouponAPI.Data
+namespace Mango.Services.ShoppingCartAPI.Data
 {
     public class AppDbContext : DbContext
     {

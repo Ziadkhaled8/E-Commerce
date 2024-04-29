@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
-using Mango.Services.CouponAPI.Models.Dto;
+using Mango.Services.ShoppingCartAPI.Models.Dto;
 using Mango.Services.ProductAPI.Data;
 using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.Dto;
