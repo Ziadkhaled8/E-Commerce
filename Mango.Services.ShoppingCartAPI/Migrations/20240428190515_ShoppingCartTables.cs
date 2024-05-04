@@ -30,7 +30,7 @@ namespace Mango.Services.ShoppingCartAPI.Migrations
                 {
                     CartDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CartHeaderID = table.Column<int>(type: "int", nullable: false),
+                    CartHeaderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
@@ -38,17 +38,17 @@ namespace Mango.Services.ShoppingCartAPI.Migrations
                 {
                     table.PrimaryKey("PK_CartDetails", x => x.CartDetailsId);
                     table.ForeignKey(
-                        name: "FK_CartDetails_CartHeaders_CartHeaderID",
-                        column: x => x.CartHeaderID,
+                        name: "FK_CartDetails_CartHeaders_CartHeaderId",
+                        column: x => x.CartHeaderId,
                         principalTable: "CartHeaders",
                         principalColumn: "CartHeaderId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartDetails_CartHeaderID",
+                name: "IX_CartDetails_CartHeaderId",
                 table: "CartDetails",
-                column: "CartHeaderID");
+                column: "CartHeaderId");
         }
 
         /// <inheritdoc />

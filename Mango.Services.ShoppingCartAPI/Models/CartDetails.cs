@@ -8,8 +8,8 @@ namespace Mango.Services.ShoppingCartAPI.Models
     {
         [Key]
         public int CartDetailsId { get; set; }
-        public int CartHeaderID { get; set; }
-        [ForeignKey(nameof(CartHeaderID))]
+        public int CartHeaderId { get; set; }
+        [ForeignKey(nameof(CartHeaderId))]
         public CartHeader CartHeader { get; set; }
         public int ProductId { get; set; }
         [NotMapped]

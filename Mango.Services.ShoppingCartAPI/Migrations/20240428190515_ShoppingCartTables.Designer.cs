@@ -32,7 +32,7 @@ namespace Mango.Services.ShoppingCartAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartDetailsId"));
 
-                    b.Property<int>("CartHeaderID")
+                    b.Property<int>("CartHeaderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Count")
@@ -43,7 +43,7 @@ namespace Mango.Services.ShoppingCartAPI.Migrations
 
                     b.HasKey("CartDetailsId");
 
-                    b.HasIndex("CartHeaderID");
+                    b.HasIndex("CartHeaderId");
 
                     b.ToTable("CartDetails");
                 });
@@ -71,7 +71,7 @@ namespace Mango.Services.ShoppingCartAPI.Migrations
                 {
                     b.HasOne("Mango.Services.ShoppingCartAPI.Models.CartHeader", "CartHeader")
                         .WithMany()
-                        .HasForeignKey("CartHeaderID")
+                        .HasForeignKey("CartHeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
