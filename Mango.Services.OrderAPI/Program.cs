@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
+using Stripe;
 using System.Text;
 
 namespace Mango.Services.OrderAPI
@@ -26,7 +27,7 @@ namespace Mango.Services.OrderAPI
                 option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
             });
             builder.Services.AddAutoMapper(typeof(MappingConfig));
-            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductService, OrderAPI.Service.ProductService>();
             builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient("Product", u => u.BaseAddress =
@@ -61,6 +62,9 @@ namespace Mango.Services.OrderAPI
                     }
                 });
             });
+
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
             builder.AddAppAuthetication();
 
             builder.Services.AddAuthorization();
