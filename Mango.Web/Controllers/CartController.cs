@@ -109,7 +109,7 @@ namespace Mango.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Confermation(int orderId)
+        public async Task<IActionResult> Confirmation(int orderId)
         {
             ResponseDto? responseDto= await _orderService.ValidateStripeSession(orderId);
             if(responseDto != null && responseDto.IsSuccess)

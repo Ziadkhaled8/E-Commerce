@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using Stripe;
 using Azure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mango.Services.OrderAPI.Controllers
 {
@@ -29,6 +30,49 @@ namespace Mango.Services.OrderAPI.Controllers
             _appDbContext = appDbContext;
             _productService = productService;
         }
+
+        [Authorize]
+        [HttpGet("GetOrders")]
+        public async Task<ResponseDto>? Get(string? userId = "")
+        {
+            try
+            {
+                IEnumerable<OrderHeader> orders;
+                if (User.IsInRole(SD.RoleAdmin))
+                {
+                     orders = await _appDbContext.OrderHeaders.Include(o => o.OrderDetails).OrderByDescending(o => o.OrderHeaderId).ToListAsync();
+                }
+                else
+                {
+                     orders=await _appDbContext.OrderHeaders.Include(o=>o.OrderDetails).Where(o=>o.UserId== userId).OrderByDescending(o=>o.OrderHeaderId).ToListAsync();
+                }
+                _responseDto.Result= _mapper.Map<IEnumerable<OrderHeaderDto>>(orders); ;
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Messege = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [Authorize]
+        [HttpGet("GetOrder/{id:int}")]
+        public ResponseDto? Get(int id)
+        {
+            try
+            {
+                OrderHeader orderHeader = _appDbContext.OrderHeaders.Include(u => u.OrderDetails).First(u => u.OrderHeaderId == id);
+                _responseDto.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Messege = ex.Message;
+            }
+            return _responseDto;
+        }
+
 
         [Authorize]
         [HttpPost("CreateOrder")]
@@ -53,6 +97,8 @@ namespace Mango.Services.OrderAPI.Controllers
             }
             return _responseDto;
         }
+        
+        
         [Authorize]
         [HttpPost("CreateStripeSession")]
         public async Task<ResponseDto> CreateStripeSession([FromBody] StripeRequestDto stripeRequestDto)
@@ -144,5 +190,37 @@ namespace Mango.Services.OrderAPI.Controllers
             }
             return _responseDto;
         }
+
+        [Authorize]
+        [HttpPost("UpdateOrderStatus/{orderId:int}")]
+        public ResponseDto UpdateOrderStatus(int orderId, [FromBody] string newStatus)
+        {
+            try
+            {
+                OrderHeader orderHeader = _appDbContext.OrderHeaders.First(o => o.OrderHeaderId == orderId);
+                if(orderHeader != null)
+                {
+                    if(newStatus==SD.Status_Cancelled)
+                    {
+                        var options = new RefundCreateOptions
+                        {
+                            Reason = RefundReasons.RequestedByCustomer,
+                            PaymentIntent = orderHeader.PaymentIntenId
+                        };
+                        var service= new RefundService();
+                        Refund refund = service.Create(options);
+                    }
+                    orderHeader.Status = newStatus;
+                    _appDbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Messege = ex.Message;
+            }
+            return _responseDto;
+        }
+
     }
 }
